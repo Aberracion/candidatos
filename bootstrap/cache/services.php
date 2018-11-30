@@ -28,10 +28,10 @@
     24 => 'Laravel\\Tinker\\TinkerServiceProvider',
     25 => 'Carbon\\Laravel\\ServiceProvider',
     26 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    27 => 'App\\Providers\\AppServiceProvider',
-    28 => 'App\\Providers\\AuthServiceProvider',
-    29 => 'App\\Providers\\EventServiceProvider',
-    30 => 'App\\Providers\\RouteServiceProvider',
+    27 => 'Candidatos\\Providers\\AppServiceProvider',
+    28 => 'Candidatos\\Providers\\AuthServiceProvider',
+    29 => 'Candidatos\\Providers\\EventServiceProvider',
+    30 => 'Candidatos\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -48,10 +48,10 @@
     10 => 'BeyondCode\\DumpServer\\DumpServerServiceProvider',
     11 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
     12 => 'Carbon\\Laravel\\ServiceProvider',
-    13 => 'App\\Providers\\AppServiceProvider',
-    14 => 'App\\Providers\\AuthServiceProvider',
-    15 => 'App\\Providers\\EventServiceProvider',
-    16 => 'App\\Providers\\RouteServiceProvider',
+    13 => 'Candidatos\\Providers\\AppServiceProvider',
+    14 => 'Candidatos\\Providers\\AuthServiceProvider',
+    15 => 'Candidatos\\Providers\\EventServiceProvider',
+    16 => 'Candidatos\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (
