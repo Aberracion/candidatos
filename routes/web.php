@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::resource('candidato', 'CandidatoController');
+Route::resource('perfil', 'PerfilController');
+Route::resource('peticion', 'PeticionController');
+
 
 Route::get('/', function () {
     return view('welcome');
