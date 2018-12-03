@@ -13,7 +13,7 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $candidatos = Candidato::all();
+        $candidatos = Candidato::where('baja', 0)->get();
         return view('candidatos.index', compact('candidatos'));
     }
 
@@ -23,7 +23,7 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return view('candidatos.create');
     }
 
     /**
@@ -33,7 +33,24 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $candidato = new Candidato();
+        $candidato->nombre = $request->input('nombre');
+        $candidato->apellidos = $request->input('apellidos');
+        $candidato->ubicacion = $request->input('ubicacion');
+        $candidato->sede = $request->input('sede');
+        $candidato->estado = $request->input('estado');
+        if ($request->hasFile('cv')) {
+            $file = $request->file('cv');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/docs/curriculums/', $name);
+            $candidato->cv = $name;
+        } else {
+            $candidato->cv = "";
+        }
+        $candidato->baja = 0;
+        $candidato->save();
+
+        return redirect()->route('candidatos.index')->with('info', 'Candidato creado exitosamente');
     }
 
     /**
@@ -43,7 +60,7 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+//
     }
 
     /**
@@ -53,7 +70,8 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        $candidato = Candidato::findOrFail($id);
+        return view('candidatos.create', compact('candidato'));
     }
 
     /**
@@ -64,7 +82,23 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $candidato = Candidato::findOrFail($id);
+        $candidato->nombre = $request->input('nombre');
+        $candidato->apellidos = $request->input('apellidos');
+        $candidato->ubicacion = $request->input('ubicacion');
+        $candidato->sede = $request->input('sede');
+        $candidato->estado = $request->input('estado');
+        if ($request->hasFile('cv')) {
+            $file_path = public_path() . '/docs/curriculums/' . $candidato->cv;
+            \File::delete($file_path);
+            $file = $request->file('cv');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/docs/curriculums/', $name);
+            $candidato->cv = $name;
+        }
+        $candidato->save();
+
+        return redirect()->route('candidatos.index', [$candidato])->with('info', 'Candidato actualizado correctamente');
     }
 
     /**
@@ -74,7 +108,10 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        $candidato = Candidato::findOrFail($id);
+        $candidato->baja = 1;
+        $candidato->save();
+        return redirect()->route('candidatos.index', [$candidato])->with('info', 'Candidato dado de baja correctamente');
     }
 
 }

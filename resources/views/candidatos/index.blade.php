@@ -2,12 +2,11 @@
 @section('title', 'Listado de Candidatos')
 @section('content')
 <div class="row">
-    <create-form-product></create-form-product>
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 Listado de candidatos
-                <add-product-btn></add-product-btn>
+                <a href="{{ route('candidatos.create') }}" class="btn btn-success btn-sm float-right">Nuevo candidato</a>
             </div>
             <div class="card-body">
                 @if(session('info'))
@@ -33,9 +32,6 @@
                         Estado
                     </th>
                     <th>
-                        CV
-                    </th>
-                    <th>
                         Acción
                     </th>
                     </thead>
@@ -58,17 +54,13 @@
                                 {{ $candidato->estado }}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-default btn-lg">
-                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                </button>
-                            </td>
-                            <td>
                                 <a href="javascript:document.getElementById('delete-{{$candidato->id}}').submit()" class="btn btn-danger btn-sm float-right ml-2 deleteModal">Eliminar</a>
-                                <form id="delete-{{$candidato->id}}" action="{{ route('candidato.destroy', $candidato->id) }}" method="POST" class="deleteModal">
+                                <form id="delete-{{$candidato->id}}" action="{{ route('candidatos.destroy', $candidato->id) }}" method="POST" class="deleteModal">
                                     @method('delete')
                                     @csrf
                                 </form>
-                                <a href="{{ route('candidato.edit', $candidato->id) }}" class="btn btn-warning btn-sm float-right ml-2 deleteModal">Modificar</a>
+                                <a href="{{ route('candidatos.edit', $candidato->id) }}" class="btn btn-warning btn-sm float-right ml-2">Modificar</a>
+                                <a href="/docs/curriculums/{{ $candidato->cv }}" class="btn btn-info btn-sm float-right ml-2">CV</a>
 
 
                             </td>
