@@ -60,6 +60,8 @@
                                     @csrf
                                 </form>
                                 <a href="{{ route('candidatos.edit', $candidato->id) }}" class="btn btn-warning btn-sm float-right ml-2">Modificar</a>
+                                <a href="{{ route('candidatos.show', $candidato->id) }}" class="btn btn-primary btn-sm float-right ml-2">Ver</a>
+
                                 @if(!empty($candidato->cv))
                                 <a href="/docs/curriculums/{{ $candidato->cv }}" class="btn btn-info btn-sm float-right ml-2">CV</a>
                                 @endif

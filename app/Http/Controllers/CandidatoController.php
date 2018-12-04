@@ -24,7 +24,7 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('candidatos.create');
+        return view('candidatos.create')->with('editar',1);
     }
 
     /**
@@ -51,16 +51,10 @@ class CandidatoController extends Controller {
         $candidato->baja = 0;
         $candidato->save();
 
-        $tecnologias = $request->input('tecnologias');
-        //return $tecnologias;
-        foreach($tecnologias['name'] as $key => $tecn){
-            $tecnologia = new Perfil();
-            $tecnologia->tecnologia = $tecn;
-            $tecnologia->nivel = $tecnologias['level'][$key];
-            $tecnologia->id_candidato = $candidato->id;
-            $tecnologia->baja=0;
-            $tecnologia->save();
-        }
+        //$tecnologias = $request->input('tecnologias');
+        
+        Perfil::actualizarPerfiles($candidato->id, $request->input('tecnologias'));
+
         return redirect()->route('candidatos.index')->with('info', 'Candidato creado exitosamente');
     }
 
@@ -71,7 +65,13 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-//
+        $candidato = Candidato::findOrFail($id);
+        $perfiles = Perfil::where('baja', 0)
+                ->where('id_candidato', '=', $id)
+                ->orderBy('nivel', 'desc')
+                ->orderBy('tecnologia', 'asc')
+                ->get();
+        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar',0);
     }
 
     /**
@@ -82,7 +82,13 @@ class CandidatoController extends Controller {
      */
     public function edit($id) {
         $candidato = Candidato::findOrFail($id);
-        return view('candidatos.create', compact('candidato'));
+        $perfiles = Perfil::where('baja', 0)
+                ->where('id_candidato', '=', $id)
+                ->orderBy('nivel', 'desc')
+                ->orderBy('tecnologia', 'asc')
+                ->get();
+
+        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar',1);
     }
 
     /**
@@ -109,6 +115,8 @@ class CandidatoController extends Controller {
         }
         $candidato->save();
 
+        Perfil::actualizarPerfiles($id, $request->input('tecnologias'));
+
         return redirect()->route('candidatos.index', [$candidato])->with('info', 'Candidato actualizado correctamente');
     }
 
@@ -122,6 +130,11 @@ class CandidatoController extends Controller {
         $candidato = Candidato::findOrFail($id);
         $candidato->baja = 1;
         $candidato->save();
+
+        Perfil::where('baja', 0)
+                ->where('id_candidato', '=', $id)
+                ->update(['baja' => 1]);
+        
         return redirect()->route('candidatos.index', [$candidato])->with('info', 'Candidato dado de baja correctamente');
     }
 
