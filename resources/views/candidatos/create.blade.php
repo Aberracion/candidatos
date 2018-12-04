@@ -10,7 +10,7 @@
             <div class="card-body">
                 <form action="@if(!empty($candidato)) {{ route('candidatos.update', $candidato->id) }} @else {{ route('candidatos.store') }} @endif" method="POST" enctype="multipart/form-data">
                     @if(!empty($candidato))
-                        @method('PUT')
+                    @method('PUT')
                     @endif
                     @csrf
                     <div class="form-group">
@@ -37,6 +37,25 @@
                         <label for="">Estado</label>
                         <input type="text" class="form-control" name="estado" value="@if(!empty($candidato)) {{ $candidato->estado }} @endif">
                     </div>
+
+                    <table class="form-group w-100">
+                        <thead>
+                        <th></th>
+                        <th>Tecnología</th>
+                        <th>Nivel</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <button class="addTecnologic">+</button>
+                                </td>
+                                <td><input type="text" class="form-control" name="tecnologias[name][]"></td>
+                                <td><input type="number" class="form-control" name="tecnologias[level][]"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
                     <button type="submit" class="btn btn-primary">Guardar</button>
                     <a href="{{ route('candidatos.index') }}" class="btn btn-danger">Cancelar</a>
                 </form>
@@ -44,4 +63,26 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+
+        $(".addTecnologic").click(function (event) {
+            event.preventDefault();
+            $("tbody").append("<tr><td><button class='removeTecnologic'>-</button></td><td>\n\
+                <input type='text' class='form-control' name='tecnologias[name][]'></td><td><input type='number' class='form-control' name='tecnologias[level][]'></td></tr>");
+            $(".removeTecnologic").click(function (event) {
+                event.preventDefault();
+                $(this).parent().parent().remove();
+            });
+        });
+
+        $(".removeTecnologic").click(function (event) {
+            event.preventDefault();
+            $(this).parent().parent().remove();
+        });
+    });
+
+
+</script>
 @endsection

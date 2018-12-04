@@ -3,6 +3,7 @@
 namespace Candidatos\Http\Controllers;
 
 use Candidatos\Candidato;
+use Candidatos\Perfil;
 use Illuminate\Http\Request;
 
 class CandidatoController extends Controller {
@@ -50,6 +51,16 @@ class CandidatoController extends Controller {
         $candidato->baja = 0;
         $candidato->save();
 
+        $tecnologias = $request->input('tecnologias');
+        //return $tecnologias;
+        foreach($tecnologias['name'] as $key => $tecn){
+            $tecnologia = new Perfil();
+            $tecnologia->tecnologia = $tecn;
+            $tecnologia->nivel = $tecnologias['level'][$key];
+            $tecnologia->id_candidato = $candidato->id;
+            $tecnologia->baja=0;
+            $tecnologia->save();
+        }
         return redirect()->route('candidatos.index')->with('info', 'Candidato creado exitosamente');
     }
 
