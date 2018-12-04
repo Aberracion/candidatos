@@ -71,6 +71,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $candidatos->links() }}
             </div>
         </div>
     </div>

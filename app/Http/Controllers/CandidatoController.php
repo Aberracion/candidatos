@@ -14,7 +14,7 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $candidatos = Candidato::where('baja', 0)->get();
+        $candidatos = Candidato::where('baja', 0)->paginate(10);
         return view('candidatos.index', compact('candidatos'));
     }
 
