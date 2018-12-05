@@ -2,6 +2,7 @@
 
 namespace Candidatos\Http\Controllers;
 
+use Candidatos\Peticion;
 use Illuminate\Http\Request;
 
 class PeticionController extends Controller
@@ -13,7 +14,8 @@ class PeticionController extends Controller
      */
     public function index()
     {
-        //
+        $peticiones = Peticion::where('baja', 0)->paginate(10);
+         return view('peticiones.index', compact('peticiones'));
     }
 
     /**
@@ -23,7 +25,7 @@ class PeticionController extends Controller
      */
     public function create()
     {
-        //
+        return view('peticiones.create')->with('editar',1);
     }
 
     /**
@@ -34,7 +36,21 @@ class PeticionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $peticion = new Peticion();
+        $peticion->name = $request->input('nombre');
+        $peticion->contexto = $request->input('contexto');
+        $peticion->mail_comercial = $request->input('mail_comercial');
+        $peticion->ubicacion = $request->input('ubicacion');
+        if ($request->input('presencial')){
+            $peticion->presencial = 1;
+        } else{
+            $peticion->presencial = 0;
+        }
+        
+        $peticion->baja = 0;
+        $peticion->save();
+
+        return redirect()->route('peticiones.index')->with('info', 'Petición creada exitosamente');
     }
 
     /**
@@ -45,7 +61,9 @@ class PeticionController extends Controller
      */
     public function show($id)
     {
-        //
+        $peticion = Peticion::findOrFail($id);
+
+        return view('peticiones.create', compact('peticion'))->with('editar',0);
     }
 
     /**
@@ -56,7 +74,9 @@ class PeticionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $peticion = Peticion::findOrFail($id);
+
+        return view('peticiones.create', compact('peticion'))->with('editar',1);
     }
 
     /**
@@ -68,7 +88,21 @@ class PeticionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $peticion = Peticion::findOrFail($id);
+        $peticion->name = $request->input('nombre');
+        $peticion->contexto = $request->input('contexto');
+        $peticion->mail_comercial = $request->input('mail_comercial');
+        $peticion->ubicacion = $request->input('ubicacion');
+        if ($request->input('presencial')){
+            $peticion->presencial = 1;
+        } else{
+            $peticion->presencial = 0;
+        }
+        
+
+        $peticion->save();
+
+        return redirect()->route('peticiones.index', [$peticion])->with('info', 'Petición actualizada correctamente');
     }
 
     /**
@@ -79,6 +113,10 @@ class PeticionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $peticion = Peticion::findOrFail($id);
+        $peticion->baja = 1;
+        $peticion->save();
+        
+        return redirect()->route('peticiones.index', [$peticion])->with('info', 'Peticion dada de baja correctamente');
     }
 }

@@ -12,7 +12,7 @@
 */
 Route::resource('candidatos', 'CandidatoController');
 Route::resource('perfil', 'PerfilController');
-Route::resource('peticion', 'PeticionController');
+Route::resource('peticiones', 'PeticionController');
 
 
 Route::get('/', function () {
