@@ -3,7 +3,9 @@
 namespace Candidatos\Http\Controllers;
 
 use Candidatos\Peticion;
+use Candidatos\Poblacion;
 use Illuminate\Http\Request;
+use DB;
 
 class PeticionController extends Controller
 {
@@ -119,4 +121,20 @@ class PeticionController extends Controller
         
         return redirect()->route('peticiones.index', [$peticion])->with('info', 'Peticion dada de baja correctamente');
     }
+    
+    public function autocomplete(Request $request)
+    {
+        $data = Poblacion::select("poblacion")
+                ->where("poblacion","LIKE","%{$request->input('query')}%")
+                ->get();
+
+        $data_array = array();
+        foreach ($data as $row)
+            {
+                $data_array[] = $row->poblacion;
+            }
+        return response()->json($data_array);
+   
+    }
+
 }

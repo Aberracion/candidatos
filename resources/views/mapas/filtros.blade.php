@@ -5,7 +5,7 @@
                 Filtros
             </div>
             <div class="card-body">
-                <form action="{{ url('/gmaps') }}" method="POST" name="filtros">
+                <form action="{{ url('maps') }}" method="POST" name="filtros">
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">

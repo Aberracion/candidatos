@@ -24,28 +24,28 @@
                     </th>
                     </thead>
                     <tbody>
-                        @foreach($candidatos as $candidato)
+                        @foreach($candidatos_filtro as $candidato_filtro)
                         <tr>
                             <td>
-                                {{ $candidato->candidato }}
+                                {{ $candidato_filtro->candidato }}
                             </td>
                             <td>
-                                {{ $candidato->ubicacion }}
+                                {{ $candidato_filtro->ubicacion }}
                             </td>
                             <td>
-                                {{ $candidato->estado }}
+                                {{ $candidato_filtro->estado }}
                             </td>
                             <td>
-                                {{ $candidato->tecnologia }}
+                                {{ $candidato_filtro->tecnologia }}
                             </td>
                             <td>
-                                {{ $candidato->nivel }}
+                                {{ $candidato_filtro->nivel }}
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {{ $candidatos->links() }}
+                {{ $candidatos_filtro->links() }}
             </div>
         </div>
     </div>
@@ -71,22 +71,22 @@
                     </th>
                     </thead>
                     <tbody>
-                        @foreach($peticiones as $peticion)
+                        @foreach($peticiones_filtro as $peticion_filtro)
                         <tr>
                             <td>
-                                {{ $peticion->name }}
+                                {{ $peticion_filtro->name }}
                             </td>
                             <td>
-                                {{ $peticion->ubicacion }}
+                                {{ $peticion_filtro->ubicacion }}
                             </td>
                             <td>
-                                {{ $peticion->presencial }}
+                                {{ $peticion_filtro->presencial }}
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {{ $peticiones->links() }}
+                {{ $peticiones_filtro->links() }}
             </div>
         </div>
     </div>

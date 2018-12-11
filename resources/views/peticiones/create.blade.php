@@ -33,8 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Ubicación</label>
-                        <input type="text" class="form-control" name="ubicacion" 
-                               @if($editar==0) disabled=true @endif 
+                        <input type="text" class="form-control" name="ubicacion" id="ubicacion" autocomplete="off" @if($editar==0) disabled=true @endif 
                                value="@if(!empty($peticion)) {{ $peticion->ubicacion }} @endif">
                     </div>
                     <div class="form-group form-check">
@@ -55,6 +54,19 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
 
+    var path = "{{ route('autocomplete') }}";
 
+    $('#ubicacion').typeahead({
+        minLength: 2,
+        hint: true,
+        source:  function (query, process) {
+        return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+        }
+    });
+
+</script>
 @endsection
