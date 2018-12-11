@@ -3,7 +3,7 @@
 namespace Candidatos\Http\Controllers;
 
 use Illuminate\Http\Request;
-use GeneaLabs\LaravelMaps\Facades\Map;
+//use GeneaLabs\LaravelMaps\Facades\Map;
 use Candidatos\Peticion;
 use Candidatos\Candidato;
 

@@ -13,17 +13,6 @@
       0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
     ),
   ),
-  'genealabs/laravel-maps' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'GeneaLabs\\LaravelMaps\\Providers\\Service',
-    ),
-    'aliases' => 
-    array (
-      'Map' => 'GeneaLabs\\LaravelMaps\\Facades\\Map',
-    ),
-  ),
   'laravel/tinker' => 
   array (
     'providers' => 
