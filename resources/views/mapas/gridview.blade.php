@@ -80,7 +80,11 @@
                                 {{ $peticion_filtro->ubicacion }}
                             </td>
                             <td>
-                                {{ $peticion_filtro->presencial }}
+                                @if($peticion_filtro->presencial == 0)
+                                NO
+                                @else
+                                SI
+                                @endif
                             </td>
                         </tr>
                         @endforeach
