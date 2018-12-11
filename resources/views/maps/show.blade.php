@@ -54,9 +54,6 @@
 
 <div id="mapid" style="width: 100%; height: 500px; margin:5px;"></div>
 
- @foreach($ubicaciones as $ubicacion)
-                    <a href="" class="">{{ $ubicacion }}</a> 
- @endforeach
 
 @include('mapas.filtros')
 @include('mapas.gridview')
@@ -81,10 +78,15 @@
           popupAnchor: [-3, -42]
 
       });
-      var madrid    = L.marker([40.41669, -3.700346], {icon: peticionIconpres}).addTo(map).bindPopup('This is Littleton, CO.'),
-          barcelona = L.marker([41.38792, 2.169919], {icon: peticionIconnop}).addTo(map).bindPopup('This is Denver, CO.'),
-          barcelona2 = L.marker([41.38792, 2.179919], {icon: candidatoIcon}).addTo(map).bindPopup('This is Denver, CO.'),
-          almeria   = L.marker([36.84016 , -2.467922 ]).addTo(map).bindPopup('This is Aurora, CO.');
+      @foreach($ubicaciones_m as $ubicacion_m)
+        var {{ $ubicacion_m['ubicacion'] }} = L.marker([{{ $ubicacion_m['latitud'] }}, {{ $ubicacion_m['longitud'] }}], {icon: candidatoIcon}).addTo(map).bindPopup('{{ $ubicacion_m['name'] }}');
+      @endforeach
+      @foreach($ubicaciones_p as $ubicacion_p)
+        var {{ $ubicacion_p['ubicacion'] }} = L.marker([{{ $ubicacion_p['latitud'] }}, {{ $ubicacion_p['longitud'] }}], {icon: peticionIconpres}).addTo(map).bindPopup('{{ $ubicacion_p['name'] }}');
+      @endforeach
+      @foreach($ubicaciones_n as $ubicacion_n)
+        var {{ $ubicacion_n['ubicacion'] }} = L.marker([{{ $ubicacion_n['latitud'] }}, {{ $ubicacion_n['longitud'] }}], {icon: peticionIconnop}).addTo(map).bindPopup('{{ $ubicacion_n['name'] }}');
+      @endforeach
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
           maxZoom: 18,
