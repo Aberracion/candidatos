@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label>Ubicación de la petición</label>
-                            <input type="text" class="form-control ftext" name="ubicacionPet" value="{{ app('request')->input('ubicacionPet') }}" />
+                            <input type="text" class="form-control ftext1" id='ftext' name="ubicacionPet" value="{{ app('request')->input('ubicacionPet') }}" />
                         </div>
                         <div class="form-group col-md-6">
                             <label>Ubicación del candidato</label>
@@ -64,10 +64,11 @@
         </div>
     </div>
 </div>
-
 <script language="javascript">
+    
     function resetear() {
         $('.ftext').val('');
         $('.fradio').val(0);
+        return false;
     }
 </script>

@@ -14,6 +14,8 @@
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
    integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
    crossorigin=""></script>   
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -31,8 +33,8 @@
         <div id="app">
             <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
                 <div class="container">
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="navbar-brand" href="{{ url('/maps') }}">
+                        Mapa
                     </a>
                     <a class="navbar-brand" href="{{ url('/candidatos') }}">
                         Candidatos
@@ -40,9 +42,7 @@
                     <a class="navbar-brand" href="{{ url('/peticiones') }}">
                         Peticiones
                     </a>
-                    <a class="navbar-brand" href="{{ url('/maps') }}">
-                        Mapa
-                    </a>
+
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                         <span class="navbar-toggler-icon"></span>
                     </button>

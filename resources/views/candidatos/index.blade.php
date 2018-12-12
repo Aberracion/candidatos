@@ -83,7 +83,6 @@
 
 <script type="text/javascript">
     $(function () {
-
         $(".deleteModal").click(function (event) {
             event.preventDefault();
             $("#confirmText").html("¿Desea eliminar el producto?");
