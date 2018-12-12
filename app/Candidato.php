@@ -9,10 +9,14 @@ class Candidato extends Model {
 
     public static function getCandidatosGridMapas($request) {
         $candidatos = DB::table('candidatos')
-                ->join('perfils', 'candidatos.id', '=', 'perfils.id_candidato')
+                ->leftJoin('perfils', 'candidatos.id', '=', 'perfils.id_candidato')
                 ->select(DB::raw("CONCAT(candidatos.nombre, ' ', candidatos.apellidos) as candidato"), 'candidatos.ubicacion', 'candidatos.estado', 'perfils.tecnologia', 'perfils.nivel')
                 ->where('candidatos.baja', 0)
-                ->where('perfils.baja', 0)->orderBy('candidato', 'asc')
+                ->where(function($q) {
+                    $q->where('perfils.baja', 0)
+                    ->orWhereNull('perfils.baja');
+                })
+                ->orderBy('candidato', 'asc')
                 ->orderBy('nivel', 'desc')
                 ->orderBy('tecnologia', 'asc');
         if (isset($request)) {
@@ -23,7 +27,7 @@ class Candidato extends Model {
                 $candidatos->where('perfils.tecnologia', 'LIKE', '%' . $request->input('tecnologia') . '%');
             }
             if ($request->input('nivel') != "" && $request->input('nivel') > 0) {
-                $candidatos->where('perfils.nivel', '>=' , $request->input('nivel'));
+                $candidatos->where('perfils.nivel', '>=', $request->input('nivel'));
             }
         }
 
