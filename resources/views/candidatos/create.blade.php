@@ -39,11 +39,14 @@
                     </div>
                     <div class="form-group">
                         <label for="">Curriculum</label>
-                        @if($editar==1)
-                        <input type="file" class="form-control" name="cv">
-                        @elseif(!empty($candidato->cv))
+                        @if(!empty($candidato->cv))
                         <a href="/docs/curriculums/{{ $candidato->cv }}" class="btn btn-info btn-sm ml-2">CV</a>
                         @endif
+                        @if($editar==1)
+                        <input type="file" class="form-control" name="cv">
+                        @endif
+
+
                     </div>
                     <div class="form-group">
                         <label for="">Estado</label>
