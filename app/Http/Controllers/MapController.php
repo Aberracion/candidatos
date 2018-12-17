@@ -12,7 +12,7 @@ class MapController extends Controller
 
     public function show_map(Request $request)
     {
-
+        $request->user()->authorizeRoles(['user', 'admin', 'super']);
     	$candidatos_filtro = Candidato::getCandidatosGridMapas($request);
         $peticiones_filtro = Peticion::getPeticionesGridMapas($request);
 

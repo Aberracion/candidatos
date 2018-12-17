@@ -1,4 +1,4 @@
-@extends('layouts_typeahead.app')
+@extends('layouts.app_typeahead')
 @section('title', 'Petición')
 @section('content')
 <div class="row">

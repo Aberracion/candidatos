@@ -13,7 +13,8 @@ class CandidatoController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $candidatos = Candidato::where('baja', 0)->paginate(10);
         return view('candidatos.index', compact('candidatos'));
     }
@@ -23,8 +24,9 @@ class CandidatoController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        return view('candidatos.create')->with('editar',1);
+    public function create(Request $request) {
+        $request->user()->authorizeRoles(['admin', 'super']);
+        return view('candidatos.create')->with('editar', 1);
     }
 
     /**
@@ -34,6 +36,7 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $candidato = new Candidato();
         $candidato->nombre = $request->input('nombre');
         $candidato->apellidos = $request->input('apellidos');
@@ -51,8 +54,6 @@ class CandidatoController extends Controller {
         $candidato->baja = 0;
         $candidato->save();
 
-        //$tecnologias = $request->input('tecnologias');
-        
         Perfil::actualizarPerfiles($candidato->id, $request->input('tecnologias'));
 
         return redirect()->route('candidatos.index')->with('info', 'Candidato creado exitosamente');
@@ -64,14 +65,15 @@ class CandidatoController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $candidato = Candidato::findOrFail($id);
         $perfiles = Perfil::where('baja', 0)
                 ->where('id_candidato', '=', $id)
                 ->orderBy('nivel', 'desc')
                 ->orderBy('tecnologia', 'asc')
                 ->get();
-        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar',0);
+        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar', 0);
     }
 
     /**
@@ -80,7 +82,8 @@ class CandidatoController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit(Request $request, $id) {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $candidato = Candidato::findOrFail($id);
         $perfiles = Perfil::where('baja', 0)
                 ->where('id_candidato', '=', $id)
@@ -88,7 +91,7 @@ class CandidatoController extends Controller {
                 ->orderBy('tecnologia', 'asc')
                 ->get();
 
-        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar',1);
+        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar', 1);
     }
 
     /**
@@ -99,6 +102,7 @@ class CandidatoController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $candidato = Candidato::findOrFail($id);
         $candidato->nombre = $request->input('nombre');
         $candidato->apellidos = $request->input('apellidos');
@@ -126,7 +130,8 @@ class CandidatoController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy(Request $request, $id) {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $candidato = Candidato::findOrFail($id);
         $candidato->baja = 1;
         $candidato->save();
@@ -134,7 +139,7 @@ class CandidatoController extends Controller {
         Perfil::where('baja', 0)
                 ->where('id_candidato', '=', $id)
                 ->update(['baja' => 1]);
-        
+
         return redirect()->route('candidatos.index', [$candidato])->with('info', 'Candidato dado de baja correctamente');
     }
 

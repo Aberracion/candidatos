@@ -14,8 +14,9 @@ class PeticionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $peticiones = Peticion::where('baja', 0)->paginate(10);
          return view('peticiones.index', compact('peticiones'));
     }
@@ -25,8 +26,9 @@ class PeticionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'super']);
         return view('peticiones.create')->with('editar',1);
     }
 
@@ -38,6 +40,7 @@ class PeticionController extends Controller
      */
     public function store(Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $peticion = new Peticion();
         $peticion->name = $request->input('nombre');
         $peticion->contexto = $request->input('contexto');
@@ -61,8 +64,9 @@ class PeticionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $peticion = Peticion::findOrFail($id);
 
         return view('peticiones.create', compact('peticion'))->with('editar',0);
@@ -74,10 +78,10 @@ class PeticionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $peticion = Peticion::findOrFail($id);
-
         return view('peticiones.create', compact('peticion'))->with('editar',1);
     }
 
@@ -90,6 +94,7 @@ class PeticionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $peticion = Peticion::findOrFail($id);
         $peticion->name = $request->input('nombre');
         $peticion->contexto = $request->input('contexto');
@@ -113,8 +118,9 @@ class PeticionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin', 'super']);
         $peticion = Peticion::findOrFail($id);
         $peticion->baja = 1;
         $peticion->save();

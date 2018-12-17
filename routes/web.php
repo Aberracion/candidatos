@@ -16,10 +16,17 @@ Route::resource('peticiones', 'PeticionController');
 Route::match(array('GET', 'POST'), 'maps', 'MapController@show_map')->name('maps');
 Route::get('import', 'ImportController@import');
 Route::get('autocomplete', 'PeticionController@autocomplete')->name('autocomplete');
+Route::resource('permisos', 'UserController');
+Route::post('/permisos/changeRol', 'UserController@changeRol');
+
+
 
 Route::get('/', function () {
     //return view('welcome');
-    return redirect()->route('maps');
+    if (Auth::check())
+        return redirect()->route('maps');
+    else
+        return redirect()->route('login');
 });
 
 
@@ -27,3 +34,7 @@ Route::get('/', function () {
 //Route::controller('gmaps', 'GmapsController');
 
 Route::match(array('GET', 'POST'), '/gmaps', ['as ' => 'gmaps', 'uses' => 'GmapsController@index']);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
