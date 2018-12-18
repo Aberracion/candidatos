@@ -24,7 +24,7 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/dropdown.css') }}" rel="stylesheet">
-        
+
     </head>
     <body>
         <div id="app">
@@ -44,6 +44,9 @@
                     </a>
                     @endif
                     @if(Auth::check() && app('request')->user()->hasAnyRole(['super']))
+                    <a class="navbar-brand" href="{{ url('/reactivacion') }}">
+                        Reactivación
+                    </a>
                     <a class="navbar-brand" href="{{ url('/permisos') }}">
                         Permisos
                     </a>

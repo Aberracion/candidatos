@@ -143,4 +143,20 @@ class CandidatoController extends Controller {
         return redirect()->route('candidatos.index', [$candidato])->with('info', 'Candidato dado de baja correctamente');
     }
 
+    public function reactivacion(Request $request) {
+        $request->user()->authorizeRoles(['super']);
+        $candidatos = Candidato::paginate(10);
+        return view('candidatos.reactivar', compact('candidatos'));
+    }
+
+    public function reactivar(Request $request) {
+        $request->user()->authorizeRoles(['super']);
+        if ($request->ajax()) {
+            $candidato = Candidato::findOrFail($request->input('id'));
+            $candidato->baja = $request->input('option');
+            $candidato->save();
+            return response()->json("OK");
+        }
+    }
+
 }

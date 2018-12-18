@@ -18,6 +18,8 @@ Route::get('import', 'ImportController@import');
 Route::get('autocomplete', 'PeticionController@autocomplete')->name('autocomplete');
 Route::resource('permisos', 'UserController');
 Route::post('/permisos/changeRol', 'UserController@changeRol');
+Route::get('/reactivacion', 'CandidatoController@reactivacion');
+Route::put('/reactivar', 'CandidatoController@reactivar');
 
 
 
