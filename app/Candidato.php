@@ -31,7 +31,7 @@ class Candidato extends Model {
             }
         }
 
-        return $candidatos->paginate(10);
+        return $candidatos->paginate(10, ['*'], 'candidato_page');
     }
 
 }

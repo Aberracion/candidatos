@@ -23,7 +23,7 @@ class Peticion extends Model {
             }
         }
 
-        return $peticiones->paginate(10);
+        return $peticiones->paginate(10, ['*'], 'peticion_page');
     }
 
 }
