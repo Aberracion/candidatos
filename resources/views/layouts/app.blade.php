@@ -7,12 +7,12 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Candidatos') }}</title>
+        <title>Candidatos - @yield('title')</title>
 
         <!-- Scripts -->
-
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        @yield('scripts')
 
 
 
@@ -22,6 +22,8 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        @yield('styles')
+        
     </head>
     <body>
         <div id="app">
@@ -42,7 +44,7 @@
                     @endif
                     @if(Auth::check() && app('request')->user()->hasAnyRole(['super']))
                     <a class="navbar-brand" href="{{ url('/reactivacion') }}">
-                        ReactivaciÃ³n
+                        Reactivación
                     </a>
                     <a class="navbar-brand" href="{{ url('/permisos') }}">
                         Permisos

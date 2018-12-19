@@ -22,6 +22,7 @@
 </table>
 
 <script type="text/javascript">
+
     $(function () {
 
         $(".addTecnologic").click(function (event) {
@@ -39,6 +40,5 @@
             $(this).parent().parent().remove();
         });
     });
-
 
 </script>

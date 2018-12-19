@@ -20,7 +20,7 @@
                         Tecnología
                     </th>
                     <th>
-                        Nivel
+                        Asignaciones
                     </th>
                     </thead>
                     <tbody>
@@ -36,10 +36,10 @@
                                 {{ $candidato_filtro->estado }}
                             </td>
                             <td>
-                                {{ $candidato_filtro->tecnologia }}
+                                {{ $candidato_filtro->tecnologias }}
                             </td>
                             <td>
-                                {{ $candidato_filtro->nivel }}
+                                {{ $candidato_filtro->asignado }}
                             </td>
                         </tr>
                         @endforeach
@@ -64,10 +64,16 @@
                         Nombre
                     </th>
                     <th>
+                        Contexto
+                    </th>
+                    <th>
                         Ubicación
                     </th>
                     <th>
                         Presencial
+                    </th>
+                    <th>
+                        Asignados
                     </th>
                     </thead>
                     <tbody>
@@ -75,6 +81,9 @@
                         <tr>
                             <td>
                                 {{ $peticion_filtro->name }}
+                            </td>
+                            <td>
+                                {{ $peticion_filtro->contexto }}
                             </td>
                             <td>
                                 {{ $peticion_filtro->ubicacion }}
@@ -85,6 +94,9 @@
                                 @else
                                 SI
                                 @endif
+                            </td>
+                            <td>
+                                {{ $peticion_filtro->asignados }}                                
                             </td>
                         </tr>
                         @endforeach

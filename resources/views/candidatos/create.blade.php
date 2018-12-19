@@ -57,6 +57,7 @@
 
                     @include('candidatos.perfiles')
 
+                    @include('candidatos.peticiones')
 
                     @if($editar==1)
                     <button type="submit" class="btn btn-primary">Guardar</button>
