@@ -32,23 +32,23 @@
                 <div class="container">
                     @if(Auth::check() && app('request')->user()->hasAnyRole(['user', 'admin', 'super']))
                     <a class="navbar-brand" href="{{ url('/maps') }}">
-                        Mapa
+                        @lang('texts.layout.map')
                     </a>
                     @endif
                     @if(Auth::check() && app('request')->user()->hasAnyRole(['admin', 'super']))
                     <a class="navbar-brand" href="{{ url('/candidatos') }}">
-                        Candidatos
+                        @lang('texts.layout.candidate')
                     </a>
                     <a class="navbar-brand" href="{{ url('/peticiones') }}">
-                        Peticiones
+                        @lang('texts.layout.petition')
                     </a>
                     @endif
                     @if(Auth::check() && app('request')->user()->hasAnyRole(['super']))
                     <a class="navbar-brand" href="{{ url('/reactivacion') }}">
-                        Reactivación
+                        @lang('texts.layout.reactivation')
                     </a>
                     <a class="navbar-brand" href="{{ url('/permisos') }}">
-                        Permisos
+                        @lang('texts.layout.permits')
                     </a>
                     @endif
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
