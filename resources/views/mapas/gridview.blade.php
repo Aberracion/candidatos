@@ -27,7 +27,12 @@
                         @foreach($candidatos_filtro as $candidato_filtro)
                         <tr>
                             <td>
-                                {{ $candidato_filtro->candidato }}
+                                @if(Auth::check() && app('request')->user()->hasAnyRole(['admin', 'super']))
+                                    <a href="./candidatos/{{ $candidato_filtro->id }}">{{ $candidato_filtro->candidato }}</a>
+                                
+                               @else
+                                    {{ $candidato_filtro->candidato }}
+                               @endif
                             </td>
                             <td>
                                 {{ $candidato_filtro->ubicacion }}
@@ -80,7 +85,12 @@
                         @foreach($peticiones_filtro as $peticion_filtro)
                         <tr>
                             <td>
-                                {{ $peticion_filtro->name }}
+                                @if(Auth::check() && app('request')->user()->hasAnyRole(['admin', 'super']))
+                                    <a href="./candidatos/{{  $peticion_filtro->id }}">{{ $peticion_filtro->name }}</a>
+                                
+                                @else
+                                    {{ $peticion_filtro->name }}
+                                @endif
                             </td>
                             <td>
                                 {{ $peticion_filtro->contexto }}

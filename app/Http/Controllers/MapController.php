@@ -38,7 +38,12 @@ class MapController extends Controller
                 	->get();
                 $latitud_m = str_replace(",",".", $latitud[0]->latitud);  
                 $longitud_m = str_replace(",",".", $longitud[0]->longitud);
-                $fullname_m = '<a href="./candidatos/'.$candidato_m->id.'">'.$candidato_m->candidato.'</a>';
+                if($request->user()->hasAnyRole(['admin', 'super'])){
+                    $fullname_m = '<a href="./candidatos/'.$candidato_m->id.'">'.$candidato_m->candidato.'</a>';
+                }else {
+                    $fullname_m = $candidato_m->candidato;
+                }
+
                 $ubicaciones_m[] = ['id' => $candidato_m->id, 'name' => $fullname_m, 'ubicacion' => $candidato_m->ubicacion, 'latitud' => $latitud_m,'longitud' => $longitud_m];
      
             }
@@ -73,8 +78,12 @@ class MapController extends Controller
                 $latitud_p = str_replace(",",".", $latitud[0]->latitud);  
                 $longitud_p = str_replace(",",".", $longitud[0]->longitud); 
 
-
-                $fullname_p = '<a href="./peticiones/'.$peticion->id.'">'.$peticion->name.'</a>';
+                if($request->user()->hasAnyRole(['admin', 'super'])){
+                    $fullname_p = '<a href="./peticiones/'.$peticion->id.'">'.$peticion->name.'</a>';
+                }else {
+                    $fullname_p = $peticion->name;
+                }
+                
                 if ($peticion->presencial==1){
                     $ints = (float)$longitud_p;
                     $ints = $ints+0.01;
