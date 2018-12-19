@@ -42,6 +42,8 @@
                         <label for="" class="form-check-label">Presencial</label>
                     </div>
 
+                    @include('peticiones.candidatos')
+
                     @if($editar==1)
                     <button type="submit" class="btn btn-primary">Guardar</button>
                     <a href="{{ route('peticiones.index') }}" class="btn btn-danger">Cancelar</a>

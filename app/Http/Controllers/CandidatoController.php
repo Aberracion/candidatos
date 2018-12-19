@@ -4,6 +4,8 @@ namespace Candidatos\Http\Controllers;
 
 use Candidatos\Candidato;
 use Candidatos\Perfil;
+use Candidatos\Peticion;
+use Candidatos\Candidato_peticione;
 use Illuminate\Http\Request;
 
 class CandidatoController extends Controller {
@@ -51,7 +53,16 @@ class CandidatoController extends Controller {
         $candidato->baja = 0;
         $candidato->save();
 
-        //$tecnologias = $request->input('tecnologias');
+        if (!empty($request->destino)){
+            foreach($request->destino as $asignado){
+                $candidato->peticiones()->attach($asignado[0]);
+            }
+        }
+        if (!empty($request->origen)){
+            foreach($request->origen as $asignado){
+                $candidato->peticiones()->detach($asignado[0]);
+            }
+        } 
         
         Perfil::actualizarPerfiles($candidato->id, $request->input('tecnologias'));
 
@@ -71,7 +82,26 @@ class CandidatoController extends Controller {
                 ->orderBy('nivel', 'desc')
                 ->orderBy('tecnologia', 'asc')
                 ->get();
-        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar',0);
+        $peticiones = Peticion::where('baja', 0)
+                ->get();
+        $peticiones_id = array();
+        foreach ($peticiones as $peticion){
+            $peticiones_id[] = $peticion->id;
+        }
+        $asignaciones_id = array();
+        foreach ($candidato->peticiones as $asignacion){
+            $asignaciones_id[] = $asignacion->id;
+        }     
+        $libres = array_diff($peticiones_id, $asignaciones_id);
+        $peticiones_libres = array();
+        foreach ($peticiones as $peticion){
+            foreach ($libres as $libre){
+                if ($peticion['id']==$libre){
+                    $peticiones_libres[] = $peticion;
+                }
+            } 
+        }
+        return view('candidatos.create', compact('candidato', 'perfiles', 'peticiones_libres'))->with('editar',0);
     }
 
     /**
@@ -88,7 +118,27 @@ class CandidatoController extends Controller {
                 ->orderBy('tecnologia', 'asc')
                 ->get();
 
-        return view('candidatos.create', compact('candidato', 'perfiles'))->with('editar',1);
+        $peticiones = Peticion::where('baja', 0)
+                ->get();
+        $peticiones_id = array();
+        foreach ($peticiones as $peticion){
+            $peticiones_id[] = $peticion->id;
+        }
+        $asignaciones_id = array();
+        foreach ($candidato->peticiones as $asignacion){
+            $asignaciones_id[] = $asignacion->id;
+        }     
+        $libres = array_diff($peticiones_id, $asignaciones_id);
+        $peticiones_libres = array();
+        foreach ($peticiones as $peticion){
+            foreach ($libres as $libre){
+                if ($peticion['id']==$libre){
+                    $peticiones_libres[] = $peticion;
+                }
+            } 
+        }
+
+        return view('candidatos.create', compact('candidato', 'perfiles', 'peticiones_libres'))->with('editar',1);
     }
 
     /**
@@ -114,6 +164,17 @@ class CandidatoController extends Controller {
             $candidato->cv = $name;
         }
         $candidato->save();
+
+        if (!empty($request->destino)){
+            foreach($request->destino as $asignado){
+                $candidato->peticiones()->attach($asignado[0]);
+            }
+        }
+        if (!empty($request->origen)){
+            foreach($request->origen as $asignado){
+                $candidato->peticiones()->detach($asignado[0]);
+            }
+        } 
 
         Perfil::actualizarPerfiles($id, $request->input('tecnologias'));
 

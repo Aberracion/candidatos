@@ -3,6 +3,7 @@
 namespace Candidatos\Http\Controllers;
 
 use Candidatos\Peticion;
+use Candidatos\Candidato;
 use Candidatos\Poblacion;
 use Illuminate\Http\Request;
 use DB;
@@ -27,7 +28,10 @@ class PeticionController extends Controller
      */
     public function create()
     {
-        return view('peticiones.create')->with('editar',1);
+        $candidatos_libres = Candidato::where('baja', 0)
+            ->get();
+
+        return view('peticiones.create', compact('candidatos_libres'))->with('editar',1);
     }
 
     /**
@@ -51,6 +55,16 @@ class PeticionController extends Controller
         
         $peticion->baja = 0;
         $peticion->save();
+        if (!empty($request->destino)){
+            foreach($request->destino as $asignado){
+                $peticion->candidatos()->attach($asignado[0]);
+            }
+        }
+        if (!empty($request->origen)){
+            foreach($request->origen as $asignado){
+                $peticion->candidatos()->detach($asignado[0]);
+            }
+        } 
 
         return redirect()->route('peticiones.index')->with('info', 'Petición creada exitosamente');
     }
@@ -64,8 +78,27 @@ class PeticionController extends Controller
     public function show($id)
     {
         $peticion = Peticion::findOrFail($id);
+        $candidatos = Candidato::where('baja', 0)
+                ->get();
+        $candidatos_id = array();
+        foreach ($candidatos as $candidato){
+            $candidatos_id[] = $candidato->id;
+        }
+        $asignaciones_id = array();
+        foreach ($peticion->candidatos as $asignacion){
+            $asignaciones_id[] = $asignacion->id;               
+        }   
 
-        return view('peticiones.create', compact('peticion'))->with('editar',0);
+        $libres = array_diff($candidatos_id, $asignaciones_id);
+        $candidatos_libres = array();
+        foreach ($candidatos as $candidato){
+            foreach ($libres as $libre){
+                if ($candidato['id']==$libre){
+                    $candidatos_libres[] = $candidato;
+                }
+            } 
+        }
+        return view('peticiones.create', compact('peticion', 'candidatos_libres'))->with('editar',0);
     }
 
     /**
@@ -77,8 +110,29 @@ class PeticionController extends Controller
     public function edit($id)
     {
         $peticion = Peticion::findOrFail($id);
+        $candidatos = Candidato::where('baja', 0)
+                ->get();
 
-        return view('peticiones.create', compact('peticion'))->with('editar',1);
+        $candidatos_id = array();
+        foreach ($candidatos as $candidato){
+            $candidatos_id[] = $candidato->id;
+        }
+        $asignaciones_id = array();
+        foreach ($peticion->candidatos as $asignacion){
+            $asignaciones_id[] = $asignacion->id;
+        }   
+
+        $libres = array_diff($candidatos_id, $asignaciones_id);
+        $candidatos_libres = array();
+        foreach ($candidatos as $candidato){
+            foreach ($libres as $libre){
+                if ($candidato['id']==$libre){
+                    $candidatos_libres[] = $candidato;
+                }
+            } 
+        }
+        
+        return view('peticiones.create', compact('peticion', 'candidatos_libres'))->with('editar',1);
     }
 
     /**
@@ -100,9 +154,19 @@ class PeticionController extends Controller
         } else{
             $peticion->presencial = 0;
         }
-        
 
         $peticion->save();
+        if (!empty($request->destino)){
+            foreach($request->destino as $asignado){
+                $peticion->candidatos()->attach($asignado[0]);
+            }
+        }
+        if (!empty($request->origen)){
+            foreach($request->origen as $asignado){
+                $peticion->candidatos()->detach($asignado[0]);
+            }
+        }
+        
 
         return redirect()->route('peticiones.index', [$peticion])->with('info', 'Petición actualizada correctamente');
     }

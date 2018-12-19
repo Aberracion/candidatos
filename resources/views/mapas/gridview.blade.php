@@ -20,7 +20,7 @@
                         Tecnología
                     </th>
                     <th>
-                        Nivel
+                        Asignaciones
                     </th>
                     </thead>
                     <tbody>
@@ -36,10 +36,10 @@
                                 {{ $candidato_filtro->estado }}
                             </td>
                             <td>
-                                {{ $candidato_filtro->tecnologia }}
+                                {{ $candidato_filtro->tecnologias }}
                             </td>
                             <td>
-                                {{ $candidato_filtro->nivel }}
+                                {{ $candidato_filtro->asignado }}
                             </td>
                         </tr>
                         @endforeach
@@ -64,10 +64,16 @@
                         Nombre
                     </th>
                     <th>
+                        Contexto
+                    </th>
+                    <th>
                         Ubicación
                     </th>
                     <th>
                         Presencial
+                    </th>
+                    <th>
+                        Asignados
                     </th>
                     </thead>
                     <tbody>
@@ -77,10 +83,21 @@
                                 {{ $peticion_filtro->name }}
                             </td>
                             <td>
+                                {{ $peticion_filtro->contexto }}
+                            </td>
+                            <td>
                                 {{ $peticion_filtro->ubicacion }}
                             </td>
                             <td>
-                                {{ $peticion_filtro->presencial }}
+                                @if($peticion_filtro->presencial==1) 
+                                Sí
+                                @endif
+                                @if($peticion_filtro->presencial==0) 
+                                No
+                                @endif                                
+                            </td>
+                            <td>
+                                {{ $peticion_filtro->asignados }}                                
                             </td>
                         </tr>
                         @endforeach

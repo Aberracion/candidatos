@@ -58,17 +58,17 @@
 @include('mapas.filtros')
 @include('mapas.gridview')
 <script type="text/javascript">
-      var map = L.map('mapid').setView([40.23754, -3.7], 6);
+      
       var peticionIconpres = L.icon({
           iconUrl: 'images/peticion-icon.png',
           iconSize: [42, 42],
-          iconAnchor: [22, 41],
+          iconAnchor: [19, 41],
           popupAnchor: [-3, -42]
       });
       var peticionIconnop = L.icon({
           iconUrl: 'images/peticion-no-icon.png',
           iconSize: [42, 42],
-          iconAnchor: [22, 41],
+          iconAnchor: [25, 41],
           popupAnchor: [-3, -42]
       });
       var candidatoIcon = L.icon({
@@ -78,22 +78,42 @@
           popupAnchor: [-3, -42]
 
       });
+      var candidatos = new L.LayerGroup();
       @foreach($ubicaciones_m as $ubicacion_m)
-        var {{ $ubicacion_m['ubicacion'] }} = L.marker([{{ $ubicacion_m['latitud'] }}, {{ $ubicacion_m['longitud'] }}], {icon: candidatoIcon}).addTo(map).bindPopup('{{ $ubicacion_m['name'] }}');
+        var {{ $ubicacion_m['ubicacion'] }} = L.marker([{{ $ubicacion_m['latitud'] }}, {{ $ubicacion_m['longitud'] }}], {icon: candidatoIcon}).bindPopup('<b>{{ $ubicacion_m['ubicacion'] }}</b><br>{!! $ubicacion_m['name'] !!}').addTo(candidatos);
       @endforeach
+      var peticiones_p = new L.LayerGroup();
       @foreach($ubicaciones_p as $ubicacion_p)
-        var {{ $ubicacion_p['ubicacion'] }} = L.marker([{{ $ubicacion_p['latitud'] }}, {{ $ubicacion_p['longitud'] }}], {icon: peticionIconpres}).addTo(map).bindPopup('{{ $ubicacion_p['name'] }}');
+        var {{ $ubicacion_p['ubicacion'] }} = L.marker([{{ $ubicacion_p['latitud'] }}, {{ $ubicacion_p['longitud'] }}], {icon: peticionIconpres}).bindPopup('<b>{{ $ubicacion_p['ubicacion'] }}</b><br>{!! $ubicacion_p['name'] !!}').addTo(peticiones_p);
       @endforeach
+      var peticiones_np = new L.LayerGroup();
       @foreach($ubicaciones_n as $ubicacion_n)
-        var {{ $ubicacion_n['ubicacion'] }} = L.marker([{{ $ubicacion_n['latitud'] }}, {{ $ubicacion_n['longitud'] }}], {icon: peticionIconnop}).addTo(map).bindPopup('{{ $ubicacion_n['name'] }}');
+        var {{ $ubicacion_n['ubicacion'] }} = L.marker([{{ $ubicacion_n['latitud'] }}, {{ $ubicacion_n['longitud'] }}], {icon: peticionIconnop}).bindPopup('<b>{{ $ubicacion_n['ubicacion'] }}</b><br>{!! $ubicacion_n['name'] !!}').addTo(peticiones_np);
       @endforeach
-      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+
+      var mapbox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
           maxZoom: 18,
           id: 'mapbox.streets',
           accessToken: 'pk.eyJ1IjoiaW55aSIsImEiOiJjanBpNjgyM3EwZ3l1M3Zxd3RwM2FuZzl5In0.R8lSRxOXyhHy4SHGccoKow'
-      }).addTo(map);
+      });
+
+      var overlays = {
+        "Candidatos" : candidatos,
+        "Peticiones presenciales" : peticiones_p,
+        "Peticiones no presenciales" : peticiones_np
+      };
+      var baseLayers = {
+         "Mapbox": mapbox
+      };   
       
+      var map = L.map('mapid', {
+        center: [40.23754, -3.7],
+        zoom: 6,
+        layers: [mapbox,candidatos,peticiones_p,peticiones_np]
+      });
+
+      L.control.layers(baseLayers, overlays,{collapsed:false}).addTo(map); 
 </script>
             </main>
         </div>
