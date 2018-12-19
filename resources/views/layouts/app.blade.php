@@ -44,7 +44,7 @@
                     @endif
                     @if(Auth::check() && app('request')->user()->hasAnyRole(['super']))
                     <a class="navbar-brand" href="{{ url('/reactivacion') }}">
-                        Reactivación
+                        ReactivaciÃ³n
                     </a>
                     <a class="navbar-brand" href="{{ url('/permisos') }}">
                         Permisos
