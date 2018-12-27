@@ -29,6 +29,16 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
+                            <label>@lang('texts.filter.context')</label>
+                            <input type="text" class="form-control ftext" name="contexto" value="{{ app('request')->input('contexto') }}"/>     
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>@lang('texts.filter.level')</label>
+                            <input type="number" class="form-control ftext" name="nivel" value="{{ app('request')->input('nivel') }}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
                             <label>@lang('texts.filter.in_person')</label>
                             <div class="row">
                                 <div class="col-md-4">
@@ -52,9 +62,8 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group col-md-6">
-                            <label>@lang('texts.filter.level')</label>
-                            <input type="number" class="form-control ftext" name="nivel" value="{{ app('request')->input('nivel') }}"/>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">@lang('texts.button.filter')</button>

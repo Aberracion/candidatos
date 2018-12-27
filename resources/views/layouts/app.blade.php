@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{{ app()->setLocale(session('language', 'en')) }}
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -7,12 +8,12 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Candidatos') }}</title>
+        <title>Candidatos - @yield('title')</title>
 
         <!-- Scripts -->
-
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        @yield('scripts')
 
 
 
@@ -21,7 +22,12 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/layouts.css') }}" rel="stylesheet">
+
+        @yield('styles')
+
     </head>
     <body>
         <div id="app">
@@ -48,9 +54,11 @@
                         @lang('texts.layout.permits')
                     </a>
                     @endif
+
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
@@ -59,14 +67,23 @@
 
                         <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">
+                            <a href="{{ route('language', 'locate=es') }}">
+                               <img src="{{ asset('images/es.png') }}" class="banderas 
+                                     @if(app()->getLocale() == 'es') activo @endif" 
+                                     />
+                            </a>
+                            <a href="{{ route('language', 'locate=en') }}">
+                                <img src="{{ asset('images/uk.png') }}" class="banderas
+                                     @if(app()->getLocale() == 'en') activo @endif" />
+                            </a>
                             <!-- Authentication Links -->
                             @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('auth.Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('auth.Register') }}</a>
                                 @endif
                             </li>
                             @else
@@ -79,7 +96,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('auth.Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

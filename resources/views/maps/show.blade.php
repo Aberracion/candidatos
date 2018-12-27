@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{{ app()->setLocale(session('language', 'en')) }}
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -28,6 +29,7 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/dropdown.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/layouts.css') }}" rel="stylesheet">
 
     </head>
     <body>
@@ -67,14 +69,23 @@
 
                         <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">
+                            <a href="{{ route('language', 'locate=es') }}">
+                               <img src="{{ asset('images/es.png') }}" class="banderas 
+                                     @if(app()->getLocale() == 'es') activo @endif" 
+                                     />
+                            </a>
+                            <a href="{{ route('language', 'locate=en') }}">
+                                <img src="{{ asset('images/uk.png') }}" class="banderas
+                                     @if(app()->getLocale() == 'en') activo @endif" />
+                            </a>
                             <!-- Authentication Links -->
                             @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('auth.Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('auth.Register') }}</a>
                                 @endif
                             </li>
                             @else
@@ -87,7 +98,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
 document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('auth.Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -109,17 +120,17 @@ document.getElementById('logout-form').submit();">
                 @include('mapas.filtros')
                 @include('mapas.gridview')
                 <script type="text/javascript">
-                    var map = L.map('mapid').setView([40.23754, - 3.7], 6);
+
                     var peticionIconpres = L.icon({
                     iconUrl: 'images/peticion-icon.png',
                             iconSize: [42, 42],
-                            iconAnchor: [22, 41],
+                            iconAnchor: [19, 41],
                             popupAnchor: [ - 3, - 42]
                     });
                     var peticionIconnop = L.icon({
                     iconUrl: 'images/peticion-no-icon.png',
                             iconSize: [42, 42],
-                            iconAnchor: [22, 41],
+                            iconAnchor: [25, 41],
                             popupAnchor: [ - 3, - 42]
                     });
                     var candidatoIcon = L.icon({
@@ -129,22 +140,39 @@ document.getElementById('logout-form').submit();">
                             popupAnchor: [ - 3, - 42]
 
                     });
+                    var candidatos = new L.LayerGroup();
                     @foreach($ubicaciones_m as $ubicacion_m)
-                            var {{ $ubicacion_m['ubicacion'] }} = L.marker([{{ $ubicacion_m['latitud'] }}, {{ $ubicacion_m['longitud'] }}], {icon: candidatoIcon}).addTo(map).bindPopup('{{ $ubicacion_m['name'] }}');
+                            var {{ $ubicacion_m['ubicacion'] }} = L.marker([{{ $ubicacion_m['latitud'] }}, {{ $ubicacion_m['longitud'] }}], {icon: candidatoIcon}).bindPopup('<b>{{ $ubicacion_m['ubicacion'] }}</b><br>{!! $ubicacion_m['name'] !!}').addTo(candidatos);
                     @endforeach
-                            @foreach($ubicaciones_p as $ubicacion_p)
-                            var {{ $ubicacion_p['ubicacion'] }} = L.marker([{{ $ubicacion_p['latitud'] }}, {{ $ubicacion_p['longitud'] }}], {icon: peticionIconpres}).addTo(map).bindPopup('{{ $ubicacion_p['name'] }}');
+                            var peticiones_p = new L.LayerGroup();
+                    @foreach($ubicaciones_p as $ubicacion_p)
+                            var {{ $ubicacion_p['ubicacion'] }} = L.marker([{{ $ubicacion_p['latitud'] }}, {{ $ubicacion_p['longitud'] }}], {icon: peticionIconpres}).bindPopup('<b>{{ $ubicacion_p['ubicacion'] }}</b><br>{!! $ubicacion_p['name'] !!}').addTo(peticiones_p);
                     @endforeach
-                            @foreach($ubicaciones_n as $ubicacion_n)
-                            var {{ $ubicacion_n['ubicacion'] }} = L.marker([{{ $ubicacion_n['latitud'] }}, {{ $ubicacion_n['longitud'] }}], {icon: peticionIconnop}).addTo(map).bindPopup('{{ $ubicacion_n['name'] }}');
+                            var peticiones_np = new L.LayerGroup();
+                    @foreach($ubicaciones_n as $ubicacion_n)
+                            var {{ $ubicacion_n['ubicacion'] }} = L.marker([{{ $ubicacion_n['latitud'] }}, {{ $ubicacion_n['longitud'] }}], {icon: peticionIconnop}).bindPopup('<b>{{ $ubicacion_n['ubicacion'] }}</b><br>{!! $ubicacion_n['name'] !!}').addTo(peticiones_np);
                     @endforeach
-                            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+
+                            var mapbox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                                     maxZoom: 18,
                                     id: 'mapbox.streets',
                                     accessToken: 'pk.eyJ1IjoiaW55aSIsImEiOiJjanBpNjgyM3EwZ3l1M3Zxd3RwM2FuZzl5In0.R8lSRxOXyhHy4SHGccoKow'
-                            }).addTo(map);
-
+                            });
+                    var overlays = {
+                    "<?php echo __('texts.map.candidate'); ?>" : candidatos,
+                            "<?php echo __('texts.map.in_person'); ?>"  : peticiones_p,
+                            "<?php echo __('texts.map.no_in_person'); ?>"  : peticiones_np
+                    };
+                    var baseLayers = {
+                    "Mapbox": mapbox
+                    };
+                    var map = L.map('mapid', {
+                    center: [40.23754, - 3.7],
+                            zoom: 6,
+                            layers: [mapbox, candidatos, peticiones_p, peticiones_np]
+                    });
+                    L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(map);
                 </script>
             </main>
         </div>

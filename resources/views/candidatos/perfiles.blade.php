@@ -1,8 +1,8 @@
 <table class="form-group w-100">
     <thead>
     <th>@if($editar==1)<button class="addTecnologic">+</button>@endif</th>
-    <th>Tecnología</th>
-    <th>Nivel</th>
+    <th>@lang('texts.candidate.tecnologic')</th>
+    <th>@lang('texts.candidate.level')</th>
 </thead>
 <tbody>
     @if(!empty($perfiles))
@@ -22,6 +22,7 @@
 </table>
 
 <script type="text/javascript">
+
     $(function () {
 
         $(".addTecnologic").click(function (event) {
@@ -39,6 +40,5 @@
             $(this).parent().parent().remove();
         });
     });
-
 
 </script>

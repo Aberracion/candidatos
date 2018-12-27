@@ -1,11 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Lista de Usuarios')
+@section('title', 'texts.user.list')
 @section('content')
+{{ app()->setLocale(session('language', 'en')) }}
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                Listado de usuarios
+                @lang('texts.user.list')
             </div>
             <div class="card-body">
                 @if(session('info'))
@@ -16,16 +17,16 @@
                 <table class='table table-hover table-sm'>
                     <thead>
                     <th>
-                        Nombre
+                        @lang('texts.user.name')
                     </th>
                     <th>
-                        Email
+                        @lang('texts.user.email')
                     </th>
                     <th>
-                        Verificado
+                        @lang('texts.user.verified')
                     </th>
                     <th>
-                        Es Admin
+                        @lang('texts.user.admin')
                     </th>
                     </thead>
                     <tbody>
@@ -39,9 +40,9 @@
                             </td>
                             <td>
                                 @if ( empty($user->email_verified_at) )
-                                NO
+                                @lang('texts.no')
                                 @else
-                                SI
+                                @lang('texts.yes')
                                 @endif
                             </td>
                             <td>
@@ -56,17 +57,23 @@
                                         selected
                                         @endif
 
-                                        >{{ $rol->description }}</option>
-                                    @endforeach
-                                </select>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                        >
+                                        @if(App::isLocale('en'))
+                                        {{ $rol->description_en }}
+                                        @else
+                                        {{ $rol->description_es }}
+                                        @endif
+                                </option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 </div>
 </div>
 

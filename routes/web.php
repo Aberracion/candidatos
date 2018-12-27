@@ -20,7 +20,12 @@ Route::resource('permisos', 'UserController');
 Route::post('/permisos/changeRol', 'UserController@changeRol');
 Route::get('/reactivacion', 'CandidatoController@reactivacion');
 Route::put('/reactivar', 'CandidatoController@reactivar');
+Route::match(array('GET', 'POST'), 'language', 'LanguageController@index')->name('language');
+Route::get('welcome/{locale}', function ($locale) {
+    App::setLocale($locale);
 
+    //
+});
 
 
 Route::get('/', function () {
