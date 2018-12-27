@@ -2,25 +2,25 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                Candidatos
+                @lang('texts.candidate.title')
             </div>
             <div class="card-body">
                 <table class='table table-hover table-sm'>
                     <thead>
                     <th>
-                        Candidato
+                        @lang('texts.candidate.candidate')
                     </th>
                     <th>
-                        Ubicación
+                        @lang('texts.candidate.location')
                     </th>
                     <th>
-                        Estado
+                        @lang('texts.candidate.state')
                     </th>
                     <th>
-                        Tecnología
+                        @lang('texts.candidate.tecnologic')
                     </th>
                     <th>
-                        Asignaciones
+                        @lang('texts.candidate.assign')
                     </th>
                     </thead>
                     <tbody>
@@ -60,25 +60,25 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                Peticiones
+                @lang('texts.petition.title')
             </div>
             <div class="card-body">
                 <table class='table table-hover table-sm'>
                     <thead>
                     <th>
-                        Nombre
+                        @lang('texts.petition.name')
                     </th>
                     <th>
-                        Contexto
+                        @lang('texts.petition.context')
                     </th>
                     <th>
-                        Ubicación
+                        @lang('texts.petition.location')
                     </th>
                     <th>
-                        Presencial
+                        @lang('texts.petition.in_person')
                     </th>
                     <th>
-                        Asignados
+                        @lang('texts.petition.assign')
                     </th>
                     </thead>
                     <tbody>
@@ -100,9 +100,9 @@
                             </td>
                             <td>
                                 @if($peticion_filtro->presencial == 0)
-                                NO
+                                @lang('texts.no')
                                 @else
-                                SI
+                                @lang('texts.yes')
                                 @endif
                             </td>
                             <td>

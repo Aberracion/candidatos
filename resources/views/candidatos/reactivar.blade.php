@@ -1,11 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Reactivar')
+@section('title', 'texts.candidate.reactivation')
 @section('content')
+{{ app()->setLocale(session('language', 'en')) }}
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                Listado de candidatos
+                @lang('texts.candidate.list')
             </div>
             <div class="card-body">
                 @if(session('info'))
@@ -16,22 +17,22 @@
                 <table class='table table-hover table-sm'>
                     <thead>
                     <th>
-                        Nombre
+                        @lang('texts.candidate.name')
                     </th>
                     <th>
-                        Apellidos
+                        @lang('texts.candidate.lastname')
                     </th>
                     <th>
-                        Ubicacion
+                        @lang('texts.candidate.location')
                     </th>
                     <th>
-                        Sede
+                        @lang('texts.candidate.headquarters')
                     </th>
                     <th>
-                        Estado
+                        @lang('texts.candidate.state')
                     </th>                    
                     <th>
-                        Está de baja
+                        @lang('texts.candidate.low')
                     </th>
                     </thead>
                     <tbody>
@@ -55,9 +56,9 @@
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm updateCandidato" baja="{{ $candidato->baja }}" pid="{{ $candidato->id }}">
                                     @if( $candidato->baja == '1' )
-                                    SI
+                                    @lang('texts.yes')
                                     @else
-                                    NO
+                                    @lang('texts.no')
                                     @endif
                                 </button>
                             </td>
@@ -74,6 +75,8 @@
 </h1>
 
 <script type="text/javascript">
+    var no = "<?php echo __('texts.no'); ?>";
+    var yes = "<?php echo __('texts.yes'); ?>";
     $(function () {
         $(".updateCandidato").click(function () {
             var id = $(this).attr('pid');
@@ -98,9 +101,9 @@
                     if (result == "OK") {
                         obj.attr('baja', option);
                         if (option == 0) {
-                            obj.html('NO');
+                            obj.html(no);
                         } else {
-                            obj.html('SI');
+                            obj.html(yes);
                         }
                     }
                 }

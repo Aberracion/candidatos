@@ -8,8 +8,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button  type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancelar</button>
-                <a href="#" type="button" class="btn btn-primary btn-danger" id="confirmAceptar">Aceptar</a>
+                <button  type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">@lang('texts.button.cancel')</button>
+                <a href="#" type="button" class="btn btn-primary btn-danger" id="confirmAceptar">@lang('texts.button.accept')</a>
             </div>
         </div>
     </div>
