@@ -1,0 +1,11 @@
+img.banderas{
+    height: 20px; 
+    width: 29px; 
+    margin-right:5px; 
+    margin-top: 9px;
+}
+
+img.banderas.activo{
+    border-style:solid;
+    border-color: orange;
+}
