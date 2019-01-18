@@ -20,6 +20,11 @@ class UserController extends Controller {
         return view('user.index', compact('users', 'roles'));
     }
 
+    /**
+     * Permite cambiar el rol de un usuario
+     * @param Request $request
+     * @return type
+     */
     public function changeRol(Request $request) {
         $request->user()->authorizeRoles(['super']);
         if ($request->ajax()) {

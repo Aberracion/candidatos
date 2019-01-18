@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Perfil extends Model {
 
+    /**
+     * Da de baja todos los perfiles del candidatos y da de alta los que reciba
+     * @param type $id
+     * @param type $tecnologias
+     */
     public static function actualizarPerfiles($id, $tecnologias) {
         if (isset($tecnologias['name'])) {
             Perfil::where('baja', 0)

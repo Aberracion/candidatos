@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 class MapController extends Controller
 {
 
+    /** 
+     * Muestra la pantalla del mapa
+     * @param Request $request
+     * @return type
+     */
     public function show_map(Request $request)
     {
         $request->user()->authorizeRoles(['user', 'admin', 'super']);

@@ -9,6 +9,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
 {
+    /**
+     * Carga el csv de poblacion
+     * @return type
+     */
     public function import()
     {
     	Excel::load('poblacion.csv', function($reader) {

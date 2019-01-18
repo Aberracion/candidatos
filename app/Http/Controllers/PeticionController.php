@@ -193,6 +193,12 @@ class PeticionController extends Controller
         return redirect()->route('peticiones.index', [$peticion])->with('info', 'Peticion dada de baja correctamente');
     }
     
+    /**
+     * Se utiliza para los desplegables de poblaciones.
+     * Rellena la población a partir del texto recibido
+     * @param Request $request
+     * @return type
+     */
     public function autocomplete(Request $request)
     {
         $data = Poblacion::select("poblacion")

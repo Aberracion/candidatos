@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Candidatos\Peticion;
 use Candidatos\Candidato;
 
+
+/**
+ * Me parece que este controlador no se utiliza
+ */
 class GmapsController extends Controller {
 
     public function index(Request $request) {

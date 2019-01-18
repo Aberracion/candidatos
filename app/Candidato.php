@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class Candidato extends Model {
 
+    /**
+     * Devuelve todos los candidatos para el mapa y el grid de la misma pantalla
+     * teniendo en cuenta los filtros introducidos
+     * @param type $request
+     * @return type
+     */
     public static function getCandidatosGridMapas($request) {
         $candidatos = DB::table('candidatos_map');
         if (isset($request)) {

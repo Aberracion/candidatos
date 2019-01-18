@@ -206,12 +206,22 @@ class CandidatoController extends Controller {
         return redirect()->route('candidatos.index', [$candidato])->with('info', 'Candidato dado de baja correctamente');
     }
 
+    /**
+     * Muestra la pantalla para reactivar candidatos que hayan sido dados de baja
+     * @param Request $request
+     * @return type
+     */
     public function reactivacion(Request $request) {
         $request->user()->authorizeRoles(['super']);
         $candidatos = Candidato::paginate(10);
         return view('candidatos.reactivar', compact('candidatos'));
     }
 
+    /**
+     * Da de alta un candidato en concreto
+     * @param Request $request
+     * @return type
+     */
     public function reactivar(Request $request) {
         $request->user()->authorizeRoles(['super']);
         if ($request->ajax()) {
